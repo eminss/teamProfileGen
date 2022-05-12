@@ -3,10 +3,12 @@ const Employee = require("./lib/Employee");
 const Engineer = require("./lib/Engineer");
 const Manager = require("./lib/Manager");
 const Intern = require("./lib/Intern");
-const team = require("./util/generateHtml");
+const generateTeam = require("./util/generateHtml");
 
-team();
-console.log(team);
+const testId = 100
+const testEmployee = new Employee ("test employee", testId, "test@test.com");
+
+console.log(testEmployee);
 promptUser = () => {
     inquirer
         .prompt([
@@ -32,7 +34,7 @@ promptUser = () => {
         })
 };
 
-let teamMembers = [];
+let team = [];
 
 createManager = () => {
     inquirer
@@ -59,7 +61,8 @@ createManager = () => {
             }
         ]).then((answers) => {
             const manager = new Manager(answers.managerName, answers.managerId, answers.managerEmail, answers.managerOfficeNum);
-            teamMembers.push(manager);
+            team.push(manager);
+            console.log(team);
             addTeamMembers();
         })
 };
@@ -80,7 +83,13 @@ addTeamMembers = () => {
             } else if (answers.addTeamMember == 'Add an intern') {
                 addIntern();
             } else {
+                // finish adding team members then
+                // generate html page with team members
+                const fillPageContent = generateTeam(team);
+                fs.writeFile(`generatedTeamProfile.md`, fillPageContent, (err) => {
 
+                    err? console.log(err) : console.log("Generating Team Profile...")
+                })
             }
         })
 };
@@ -92,7 +101,6 @@ addEngineer = () => {
                 type: 'input',
                 message: "What is the engineer's name?",
                 name: 'engineerName',
-                validate: ','
             },
             {
                 type: 'input',
@@ -109,7 +117,11 @@ addEngineer = () => {
                 message: "What is your engineer's github?",
                 name: 'engineerGithub'
             }
-        ])
+        ]).then((answers) => {
+            const engineer = new Engineer(answers.engineerName, answers.engineerId, answers.engineerEmail, answers.engineerGithub);
+            team.push(engineer);
+            addTeamMembers();
+        })
 };
 
 addIntern = () => {
@@ -119,7 +131,6 @@ addIntern = () => {
                 type: 'input',
                 message: "What is the intern's name?",
                 name: 'internName',
-                validate: ','
             },
             {
                 type: 'input',
@@ -136,7 +147,12 @@ addIntern = () => {
                 message: "What is your intern's school?",
                 name: 'internSchool'
             }
-        ])
+        ]).then((answers) => {
+            const intern = new Intern(answers.internName, answers.internId, answers.internEmail, answers.internSchool);
+            team.push(intern);
+            console.log(team);
+            addTeamMembers();
+        })
 };
 
 createManager();
