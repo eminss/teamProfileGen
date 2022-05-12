@@ -3,7 +3,10 @@ const Employee = require("./lib/Employee");
 const Engineer = require("./lib/Engineer");
 const Manager = require("./lib/Manager");
 const Intern = require("./lib/Intern");
+const team = require("./util/generateHtml");
 
+team();
+console.log(team);
 promptUser = () => {
     inquirer
         .prompt([
@@ -27,7 +30,7 @@ promptUser = () => {
         .then((answers) => {
             console.log(answers);
         })
-}
+};
 
 let teamMembers = [];
 
@@ -59,7 +62,7 @@ createManager = () => {
             teamMembers.push(manager);
             addTeamMembers();
         })
-}
+};
 
 addTeamMembers = () => {
     inquirer
@@ -75,21 +78,21 @@ addTeamMembers = () => {
             if (answers.addTeamMember == 'Add an engineer') {
                 addEngineer();
             } else if (answers.addTeamMember == 'Add an intern') {
-
+                addIntern();
             } else {
 
             }
         })
-}
+};
 
 addEngineer = () => {
     inquirer
         .prompt([
-
             {
                 type: 'input',
                 message: "What is the engineer's name?",
-                name: 'engineerName'
+                name: 'engineerName',
+                validate: ','
             },
             {
                 type: 'input',
@@ -103,11 +106,37 @@ addEngineer = () => {
             },
             {
                 type: 'input',
-                message: 'What is your manager office number?',
-                name: 'managerOfficeNum'
+                message: "What is your engineer's github?",
+                name: 'engineerGithub'
             }
-
         ])
-}
+};
+
+addIntern = () => {
+    inquirer
+        .prompt([
+            {
+                type: 'input',
+                message: "What is the intern's name?",
+                name: 'internName',
+                validate: ','
+            },
+            {
+                type: 'input',
+                message: "What is the intern's employeeID?",
+                name: 'internId'
+            },
+            {
+                type: 'input',
+                message: "What is the intern's email?",
+                name: 'internEmail'
+            },
+            {
+                type: 'input',
+                message: "What is your intern's school?",
+                name: 'internSchool'
+            }
+        ])
+};
 
 createManager();
