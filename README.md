@@ -21,6 +21,9 @@
         ## Description: 
         
         Team Profile Generator allows users to create a team profile based on their input, resulting in an HTML file generated with information they input, including emails, github links, employee IDs, and other information.
+
+        Demo:
+        https://youtu.be/z6KoR3j5snc
         
         ## Installation instructions:
         
