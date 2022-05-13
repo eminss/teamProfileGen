@@ -1,38 +1,10 @@
 const inquirer = require("inquirer");
+const fs = require("fs");
 const Employee = require("./lib/Employee");
 const Engineer = require("./lib/Engineer");
 const Manager = require("./lib/Manager");
 const Intern = require("./lib/Intern");
 const generateTeam = require("./util/generateHtml");
-
-const testId = 100
-const testEmployee = new Employee ("test employee", testId, "test@test.com");
-
-console.log(testEmployee);
-promptUser = () => {
-    inquirer
-        .prompt([
-            {
-                type: 'list',
-                message: 'What role are you in this team?',
-                choices: ['Team Manager', 'Engineer', 'Intern'],
-                name: 'Role'
-            },
-            {
-                type: 'input',
-                message: 'What is your GitHub Username?',
-                name: 'github'
-            },
-            {
-                type: 'input',
-                message: 'What is your Email?',
-                name: 'email'
-            }
-        ])
-        .then((answers) => {
-            console.log(answers);
-        })
-};
 
 let team = [];
 
@@ -86,7 +58,7 @@ addTeamMembers = () => {
                 // finish adding team members then
                 // generate html page with team members
                 const fillPageContent = generateTeam(team);
-                fs.writeFile(`generatedTeamProfile.md`, fillPageContent, (err) => {
+                fs.writeFile(`generatedTeamProfile.html`, fillPageContent, (err) => {
 
                     err? console.log(err) : console.log("Generating Team Profile...")
                 })
